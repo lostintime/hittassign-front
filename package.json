@@ -17,6 +17,7 @@
     "build:dev": "parcel src/index.html",
     "build:watch": "parcel watch src/index.html",
     "precommit": "yarn test:prod",
+    "commit": "git-cz",
     "commitmsg": "validate-commit-msg"
   },
   "dependencies": {
