@@ -1,0 +1,20 @@
+{
+  "name": "hittassign-front",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Company reviews demo app, using ReactJS",
+  "main": "dist/index.js",
+  "author": "lostintime <lostintime.dev@gmail.com>",
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json",
+    "clean": "([ -e ./dist ] && rm -R ./dist) || true",
+    "watch": "webpack --config webpack.config.ts --watch",
+    "build": "webpack --config webpack.prod.ts"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    
+  }
+}
