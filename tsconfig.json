@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "sourceMap": true,
+    "declaration": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
+    "declarationDir": "dist",
+    "outDir": "dist"
+  },
+  "include": [
+    "src"
+  ]
+}
