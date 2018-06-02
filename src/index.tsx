@@ -14,3 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import * as ReactDOM from "react-dom"
+import * as React from "react"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+
+class HelloWorld extends React.Component<{}, {}> {
+  render(): React.ReactNode {
+    return (
+      <h1>Hello world!!!1</h1>
+    )
+  }
+}
+
+ReactDOM.render((
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={HelloWorld} />
+    </Switch>
+  </BrowserRouter>
+), document.getElementById("root"))

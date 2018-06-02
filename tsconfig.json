@@ -12,7 +12,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
     "declarationDir": "dist",
-    "outDir": "dist"
+    "outDir": "dist",
+    "jsx": "react"
   },
   "include": [
     "src"
