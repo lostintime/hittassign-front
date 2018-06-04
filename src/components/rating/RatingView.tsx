@@ -15,28 +15,37 @@
  * limitations under the License.
  */
 
-import * as ReactDOM from "react-dom"
 import * as React from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
-import { RatingSlider } from "./components/rating/RatingSlider"
-import { RatingView } from "./components/rating/RatingView"
+import { Rating } from "./dsl"
 
-class HelloWorld extends React.Component<{}, {}> {
+export type RatingViewProps = {
+  readonly rating: number
+}
+
+export type RatingViewState = {}
+
+/**
+ * Small stars rating view (read-only)
+ */
+export class RatingView extends React.Component<RatingViewProps, RatingViewState> {
+
   render(): React.ReactNode {
+    const stars: Array<Rating> = [1, 2, 3, 4, 5]
+
     return (
       <div>
-        <h1>Hello world!!!1</h1>
-        <RatingSlider onRatingChanged={r => console.log("rating", r)} />
-        <RatingView rating={3}/>
+        {stars.map(r => (
+          <img src={r <= this.props.rating
+            ? require("./assets/star_filled.png")
+            : require("./assets/star_empty.png")}
+            key={r}
+            style={{
+              width: "12px",
+              height: "12px",
+              padding: "0px"
+            }} />
+        ))}
       </div>
     )
   }
 }
-
-ReactDOM.render((
-  <BrowserRouter>
-    <Switch>
-      <Route path="/" component={HelloWorld} />
-    </Switch>
-  </BrowserRouter>
-), document.getElementById("root"))
