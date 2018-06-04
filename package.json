@@ -21,6 +21,7 @@
     "commitmsg": "validate-commit-msg"
   },
   "dependencies": {
+    "bootstrap": "^4.1.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
