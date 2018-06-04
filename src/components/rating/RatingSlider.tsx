@@ -75,7 +75,7 @@ export class RatingSlider extends React.Component<RatingSliderProps, RatingSlide
             ? require("./assets/star_filled.png")
             : require("./assets/star_empty.png")}
             key={r}
-            className="rating-star"
+            className={r === 1 ? "rating-star-left" : (r === 5 ? "rating-star-right" : "rating-star")}
             onMouseOver={_ => this.displayRating(r)}
             onMouseOut={_ => this.displayRating(this.state.rating)}
             onClick={_ => this.setRating(r)} />

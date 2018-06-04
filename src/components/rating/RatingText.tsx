@@ -18,30 +18,31 @@
 import * as React from "react"
 import { Rating } from "./dsl"
 
-export type RatingViewProps = {
+export type RatingTextProps = {
   readonly rating: Rating
 }
 
-export type RatingViewState = {}
-
 /**
- * Small stars rating view (read-only)
+ * Reting message text
  */
-export class RatingView extends React.Component<RatingViewProps, RatingViewState> {
+export class RatingText extends React.Component<RatingTextProps, never> {
+
+  private getRatingText(): string {
+    // TODO add localization for texts
+    switch (this.props.rating) {
+      case 1: return "I hated it"
+      case 2: return "I didn't like it"
+      case 3: return "It was OK"
+      case 4: return "I liked it"
+      case 5: return "I loved it"
+    }
+  }
 
   render(): React.ReactNode {
-    const stars: Array<Rating> = [1, 2, 3, 4, 5]
-
     return (
-      <div className="rating-view">
-        {stars.map(r => (
-          <img src={r <= this.props.rating
-            ? require("./assets/star_filled.png")
-            : require("./assets/star_empty.png")}
-            key={r}
-            className="rating-star"/>
-        ))}
-      </div>
+      <span className="rating-text">
+        {this.getRatingText()}
+      </span>
     )
   }
 }
