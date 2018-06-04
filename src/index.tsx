@@ -34,7 +34,7 @@ class HelloWorld extends React.Component<{}, {}> {
         <h3>Latest reviews</h3>
         <ReviewItem
           title="Anonym" rating={4} subtitle="12h ago - hitta.se"
-          text="Liked it very much - probably on of the bes thai restaurands in the city - recommend!"
+          text="Liked it very much - probably on of the best thai restaurands in the city - recommend!"
         />
         <hr />
         <ReviewItem

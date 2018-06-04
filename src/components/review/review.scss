@@ -29,6 +29,7 @@
 
   .review-rating {
     @extend %text-secondary;
+    line-height: 1;
 
     .rating-view {
       margin-right: 10px;

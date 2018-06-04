@@ -29,10 +29,12 @@ $icon-size: 35px;
 h2 {
   @extend %text-title;
   font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 h3 {
   @extend %text-title;
+  margin-bottom: 0.8rem;
 }
 
 a {
