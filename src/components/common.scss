@@ -64,6 +64,16 @@ hr {
   @extend %text-title;
 }
 
+.actionbar {
+  background: #34AFF4;
+  font-weight: 100;
+
+  .actionbar-button {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
 .form-control {
   display: block;
   width: 100%;

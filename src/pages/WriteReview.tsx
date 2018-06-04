@@ -43,26 +43,26 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
   render(): React.ReactNode {
     return (
       <div>
-        <div className="d-flex justify-content-between" style={{ backgroundColor: "#34AFF4" }}>
-          <div className="p-2" style={{ fontSize: "14px" }}>
-            <a href="javascript:" style={{ color: "white" }}>Close</a>
+        <div className="d-flex justify-content-between actionbar">
+          <div className="p-2 actionbar-button">
+            <a href="/" style={{ color: "white" }}>Close</a>
           </div>
-          <div className="p-2" style={{ color: "white", fontSize: "14px" }}>Review Waan Thai</div>
-          <div className="p-2" style={{ fontSize: "14px" }}>
+          <div className="p-2" style={{ color: "white" }}>Review Waan Thai</div>
+          <div className="p-2 actionbar-button">
             <a href="javascript:" style={{ color: "white" }}>Save</a>
           </div>
         </div>
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: "1rem 0.75rem" }}>
           <div style={{ textAlign: "center" }}>
             <RatingSlider rating={this.state.rating} onRatingChanged={r => this.setRating(r)} />
           </div>
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", marginTop: "12px" }}>
             <RatingText rating={this.state.rating}/>
           </div>
-          <hr style={{ margin: 0 }}/>
+          <hr style={{ margin: "1.125rem 0 .125rem 0" }}/>
           <input type="text" className="form-control" placeholder="Your name" />
-          <hr style={{ margin: 0 }}/>
-          <textarea className="form-control" placeholder="Add more details on your experience"></textarea>
+          <hr style={{ margin: ".25rem 0 .25rem 0" }}/>
+          <textarea className="form-control" placeholder="Add more details on your experience" rows={3} style={{ resize: "none" }}></textarea>
           <hr style={{ margin: 0 }}/>
         </div>
       </div>

@@ -25,6 +25,7 @@ export class ReviewsList extends React.Component<{}, never> {
     return (
       <div className="container">
         <h2>Reviews</h2>
+        <a href="/add">Add</a>
         <ReviewHeader />
         <hr />
         <ReviewAddItem />
