@@ -16,30 +16,23 @@
  */
 
 import * as React from "react"
-import { RatingView, Rating } from "../rating"
+import { RatingSlider } from "../rating"
 
-export type ReviewItemProps = {
-  readonly title: string
-  readonly subtitle?: string
-  readonly rating: Rating
-  readonly text?: string
-  readonly picSrc?: string
-}
-
-export class ReviewItem extends React.Component<ReviewItemProps, never> {
+export class ReviewAddItem extends React.Component<{}, never> {
   render(): React.ReactNode {
     return (
       <div className="review-item clearfix">
         <div className="review-col1">
-          <img src={this.props.picSrc ? this.props.picSrc : require("./assets/avatar.png")} />
+          <img src={require("./assets/avatar.png")}/>
         </div>
         <div className="review-col2">
-          <div className="review-title">{this.props.title}</div>
+          <div className="review-title">Rate and review</div>
           <div className="review-rating">
-            <RatingView rating={this.props.rating} />
-            {this.props.subtitle ? (<span>{this.props.subtitle}</span>) : null}
+            <span>Share your experience to help others</span>
           </div>
-          { this.props.text ? (<div className="review-text">{this.props.text}</div>) : null}
+          <div className="review-text">
+            <RatingSlider onRatingChanged={r => console.log("rating", r)}/>
+          </div>
         </div>
       </div>
     )

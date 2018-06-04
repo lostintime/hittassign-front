@@ -1,14 +1,14 @@
 @import "../common.scss";
 
 .review-item {
-  margin: 4px 0 8px 0;
+  margin: 8px 0 8px 0;
 
   .review-col1 {
     float: left;
     width: 50px;
-    padding-top: 4px;
 
     img {
+      margin-top: 2px;
       width: $icon-size;
       height: $icon-size;
     }
@@ -24,14 +24,18 @@
   .review-title {
     @extend %text-title;
     font-weight: 500;
+    color: #000000;
   }
 
   .review-rating {
     @extend %text-secondary;
 
+    .rating-view {
+      margin-right: 10px;
+    }
+
     span {
       vertical-align: middle;
-      margin-left: 10px;
     }
   }
 

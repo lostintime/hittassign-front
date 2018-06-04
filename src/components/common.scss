@@ -1,6 +1,7 @@
 
 $icon-size: 35px;
 
+// bootstrap resets font default to 16px
 %text {
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
@@ -19,28 +20,37 @@ $icon-size: 35px;
 
 %text-title {
   @extend %text;
-  color: #000000;
+  color: #333333;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-size: 1rem;
   font-weight: bold;
+}
+
+h2 {
+  @extend %text-title;
+  font-size: 1.25rem;
+}
+
+h3 {
+  @extend %text-title;
 }
 
 a {
   color: #039BEF;
 }
 
-.clear {
-  clear: both;
+hr {
+	border-top: 1px solid #EFEFEF;
 }
 
-.test-text-primary {
+.text-primary {
   @extend %text-primary;
 }
 
-.test-text-secondary {
+.text-secondary {
   @extend %text-secondary;
 }
 
-.test-text-title {
+.text-title {
   @extend %text-title;
 }

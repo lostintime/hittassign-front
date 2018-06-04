@@ -16,30 +16,23 @@
  */
 
 import * as React from "react"
-import { RatingView, Rating } from "../rating"
 
-export type ReviewItemProps = {
-  readonly title: string
-  readonly subtitle?: string
-  readonly rating: Rating
-  readonly text?: string
-  readonly picSrc?: string
-}
-
-export class ReviewItem extends React.Component<ReviewItemProps, never> {
+export class ReviewHeader extends React.Component<{}, never> {
   render(): React.ReactNode {
     return (
       <div className="review-item clearfix">
-        <div className="review-col1">
-          <img src={this.props.picSrc ? this.props.picSrc : require("./assets/avatar.png")} />
+        <div className="review-col1" style={{ paddingTop: "0px" }}>
+          <div className="rating-avg">4.1</div>
         </div>
         <div className="review-col2">
-          <div className="review-title">{this.props.title}</div>
-          <div className="review-rating">
-            <RatingView rating={this.props.rating} />
-            {this.props.subtitle ? (<span>{this.props.subtitle}</span>) : null}
+          <div style={{ position: "relative", lineHeight: "35px" }}>
+            <div className="text-secondary" style={{ float: "left", margin: 0, padding: 0, lineHeight: "35px" }}>
+              from 27 reviews
+            </div>
+            <div style={{ float: "right", margin: 0, padding: 0, lineHeight: "35px" }}>
+              <a href="javascript:">View all reviews</a>
+            </div>
           </div>
-          { this.props.text ? (<div className="review-text">{this.props.text}</div>) : null}
         </div>
       </div>
     )
