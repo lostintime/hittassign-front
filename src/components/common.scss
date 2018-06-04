@@ -1,5 +1,10 @@
 
 $icon-size: 35px;
+$text-primary-color: #282829;
+$text-secondary-color: #9B9B9B;
+$text-title-color: #333333;
+$input-text-color: #8C8C8C;
+
 
 // bootstrap resets font default to 16px
 %text {
@@ -8,19 +13,19 @@ $icon-size: 35px;
 
 %text-primary {
   @extend %text;
-  color: #282829;
+  color: $text-primary-color;
   font-size: 1rem;
 }
 
 %text-secondary {
   @extend %text;
-  color: #9B9B9B;
+  color: $text-secondary-color;
   font-size: .8125rem;
 }
 
 %text-title {
   @extend %text;
-  color: #333333;
+  color: $text-title-color;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-size: 1rem;
   font-weight: bold;
@@ -42,7 +47,9 @@ a {
 }
 
 hr {
-	border-top: 1px solid #EFEFEF;
+  border-top: 1px solid #EFEFEF;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .text-primary {
@@ -55,4 +62,23 @@ hr {
 
 .text-title {
   @extend %text-title;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .0rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $input-text-color;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: solid 0;
+  font-weight: 100;
+}
+
+.form-control:focus {
+  outline: none;
+  outline-width: 0;
+  box-shadow: 0 0 0 0 #fff
 }
