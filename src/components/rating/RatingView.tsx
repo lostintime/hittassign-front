@@ -33,17 +33,13 @@ export class RatingView extends React.Component<RatingViewProps, RatingViewState
     const stars: Array<Rating> = [1, 2, 3, 4, 5]
 
     return (
-      <div>
+      <div className="rating-view">
         {stars.map(r => (
           <img src={r <= this.props.rating
             ? require("./assets/star_filled.png")
             : require("./assets/star_empty.png")}
             key={r}
-            style={{
-              width: "12px",
-              height: "12px",
-              padding: "0px"
-            }} />
+            className="rating-star"/>
         ))}
       </div>
     )
