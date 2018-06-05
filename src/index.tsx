@@ -17,7 +17,7 @@
 
 import * as ReactDOM from "react-dom"
 import * as React from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
 import { ReviewsList } from "./pages/ReviewsList"
 import { WriteReview } from "./pages/WriteReview"
 

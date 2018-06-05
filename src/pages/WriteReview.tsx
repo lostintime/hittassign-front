@@ -17,6 +17,7 @@
 
 import * as React from "react"
 import { RatingSlider, RatingText, Rating } from "../components/rating"
+import { AlertBox } from "./AlertBox"
 
 export type WriteReviewProps = {
   readonly rating: Rating
@@ -65,6 +66,14 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
           <textarea className="form-control" placeholder="Add more details on your experience" rows={3} style={{ resize: "none" }}></textarea>
           <hr style={{ margin: 0 }}/>
         </div>
+        <AlertBox
+            title="Thank you for your review"
+            message="You're helping others make smarter decisions every day."
+            dismissText="Okey!"
+            onDismiss={() => {
+              console.log("dismiss")
+            }}/>
+
       </div>
     )
   }
