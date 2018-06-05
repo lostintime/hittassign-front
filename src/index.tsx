@@ -24,7 +24,7 @@ import { WriteReview } from "./pages/WriteReview"
 ReactDOM.render((
   <BrowserRouter>
     <Switch>
-      <Route path="/add" render={() => (<WriteReview rating={5}/>)} />
+      <Route path="/add" render={() => (<WriteReview review={{ rating: 5 }} />)} />
       <Route path="/" component={ReviewsList} />
     </Switch>
   </BrowserRouter>
