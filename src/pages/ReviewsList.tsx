@@ -23,7 +23,7 @@ import { ReviewAddItem } from "../components/review/ReviewAddItem"
 export class ReviewsList extends React.Component<{}, never> {
   render(): React.ReactNode {
     return (
-      <div className="container" style={{ paddingTop: "1.625rem" }}>
+      <div className="container" style={{ paddingTop: "26px", paddingBottom: "15px" }}>
         <h2>Reviews</h2>
         <ReviewHeader />
         <hr />

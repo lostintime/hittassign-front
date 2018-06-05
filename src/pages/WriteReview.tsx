@@ -18,21 +18,17 @@
 import * as React from "react"
 import { RatingSlider, RatingText, Rating } from "../components/rating"
 import { AlertBox } from "./AlertBox"
-import { Redirect } from "react-router"
+import { Review } from "../components/review/dsl"
 
 export type WriteReviewProps = {
   readonly review: Review
-}
-
-type Review = {
-  readonly rating: Rating
-  readonly name?: string
-  readonly message?: string
+  readonly onClose?: (r: Review) => void
+  readonly onSave?: (r: Review) => void
 }
 
 namespace WriteReviewState {
-  export type Edit = {
-    readonly _tag: "Edit"
+  export type Editing = {
+    readonly _tag: "Editing"
     readonly review: Review
   }
 
@@ -40,31 +36,54 @@ namespace WriteReviewState {
     readonly _tag: "ThankYou"
     readonly review: Review
   }
-
-  export type Done = {
-    readonly _tag: "Done"
-    readonly review: Review
-  }
 }
 
 export type WriteReviewState =
-  | WriteReviewState.Edit
+  | WriteReviewState.Editing
   | WriteReviewState.ThankYou
-  | WriteReviewState.Done
 
 export class WriteReview extends React.Component<WriteReviewProps, WriteReviewState> {
   constructor(props: WriteReviewProps) {
     super(props)
     this.state = {
-      _tag: "Edit",
+      _tag: "Editing",
       review: this.props.review
     }
   }
 
   private setRating(rating: Rating): void {
     this.setState(prev => ({
-      ...prev,
-      rating: rating
+      _tag: "Editing",
+      review: {
+        ...prev.review,
+        rating: rating
+      }
+    }))
+  }
+
+  private setUserName(userName: string): void {
+    this.setState(prev => ({
+      _tag: "Editing",
+      review: {
+        rating: prev.review.rating,
+        time: prev.review.time,
+        ...(prev.review.message ? { message: prev.review.message } : {}),
+        ...(userName.trim() !== "" ? { userName: userName.trim() } : {}),
+        ...(prev.review.userPic ? { userPic: prev.review.userPic } : {})
+      }
+    }))
+  }
+
+  private setMessage(message: string): void {
+    this.setState(prev => ({
+      _tag: "Editing",
+      review: {
+        rating: prev.review.rating,
+        time: prev.review.time,
+        ...(message.trim() !== "" ? { message: message.trim() } : {}),
+        ...(prev.review.userName ? { userName: prev.review.userName } : {}),
+        ...(prev.review.userPic ? { userPic: prev.review.userPic } : {})
+      }
     }))
   }
 
@@ -76,59 +95,57 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
   }
 
   private close(): void {
-    this.save()
+    if (this.props.onClose) {
+      this.props.onClose(this.props.review)
+    }
   }
 
   private done(): void {
-    this.setState(prev => ({
-      _tag: "Done",
-      review: prev.review
-    }))
+    if (this.props.onSave) {
+      this.props.onSave(this.props.review)
+    }
   }
 
   render(): React.ReactNode {
-    switch (this.state._tag) {
-      case "Edit":
-      case "ThankYou": {
-        return (
-          <div>
-            <div className="d-flex justify-content-between actionbar">
-              <div className="p-2 actionbar-button">
-                <a href="javascript:" style={{ color: "white" }} onClick={_ => this.close()}>Close</a>
-              </div>
-              <div className="p-2" style={{ color: "white" }}>Review Waan Thai</div>
-              <div className="p-2 actionbar-button">
-                <a href="javascript:" style={{ color: "white" }} onClick={_ => this.save()}>Save</a>
-              </div>
-            </div>
-            <div style={{ padding: "1rem 0.75rem" }}>
-              <div style={{ textAlign: "center" }}>
-                <RatingSlider rating={this.state.review.rating} onRatingChanged={r => this.setRating(r)} />
-              </div>
-              <div style={{ textAlign: "center", marginTop: "12px" }}>
-                <RatingText rating={this.state.review.rating} />
-              </div>
-              <hr style={{ margin: "1.125rem 0 .125rem 0" }} />
-              <input type="text" className="form-control" placeholder="Your name" />
-              <hr style={{ margin: ".25rem 0 .25rem 0" }} />
-              <textarea className="form-control" placeholder="Add more details on your experience" rows={3} style={{ resize: "none" }}></textarea>
-              <hr style={{ margin: 0 }} />
-            </div>
-            {this.state._tag === "ThankYou" ? (
-              <AlertBox
-                title="Thank you for your review"
-                message="You're helping others make smarter decisions every day."
-                dismissText="Okey!"
-                onDismiss={() => this.done()} />
-            ) : null}
+    return (
+      <div>
+        <div className="d-flex justify-content-between actionbar">
+          <div className="p-2 actionbar-button">
+            <a href="javascript:" style={{ color: "white" }} onClick={_ => this.close()}>Close</a>
           </div>
-        )
-      }
-      case "Done": {
-        return (
-          <Redirect to="/" />
-        )
-      }
-    }
+          <div className="p-2" style={{ color: "white" }}>Review Waan Thai</div>
+          <div className="p-2 actionbar-button">
+            <a href="javascript:" style={{ color: "white" }} onClick={_ => this.save()}>Save</a>
+          </div>
+        </div>
+        <div style={{ padding: "1rem 0.75rem" }}>
+          <div style={{ textAlign: "center" }}>
+            <RatingSlider rating={this.state.review.rating} onRatingChanged={r => this.setRating(r)} />
+          </div>
+          <div style={{ textAlign: "center", marginTop: "12px" }}>
+            <RatingText rating={this.state.review.rating} />
+          </div>
+          <hr style={{ margin: "1.125rem 0 .125rem 0" }} />
+          <input type="text"
+                  className="form-control"
+                  placeholder="Your name"
+                  onChange={e => this.setUserName(e.target.value)} />
+          <hr style={{ margin: ".25rem 0 .25rem 0" }} />
+          <textarea className="form-control"
+                    placeholder="Add more details on your experience"
+                    rows={3}
+                    style={{ resize: "none" }}
+                    onChange={e => this.setMessage(e.target.value)}></textarea>
+          <hr style={{ margin: 0 }} />
+        </div>
+        {this.state._tag === "ThankYou" ? (
+          <AlertBox
+            title="Thank you for your review"
+            message="You're helping others make smarter decisions every day."
+            dismissText="Okey!"
+            onDismiss={() => this.done()} />
+        ) : null}
+      </div>
+    )
   }
 }

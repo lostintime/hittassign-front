@@ -15,17 +15,15 @@
  * limitations under the License.
  */
 
-import * as ReactDOM from "react-dom"
-import * as React from "react"
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
-import { ReviewsList } from "./pages/ReviewsList"
-import { WriteReview } from "./pages/WriteReview"
+import { Rating } from "../rating"
 
-ReactDOM.render((
-  <BrowserRouter>
-    <Switch>
-      <Route path="/add" render={() => (<WriteReview review={{ rating: 5, time: new Date() }} />)} />
-      <Route path="/" component={ReviewsList} />
-    </Switch>
-  </BrowserRouter>
-), document.getElementById("root"))
+/**
+ * Review info
+ */
+export type Review = {
+  readonly rating: Rating
+  readonly time: Date
+  readonly message?: string
+  readonly userName?: string
+  readonly userPic?: string
+}
