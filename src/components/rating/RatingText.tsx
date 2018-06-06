@@ -28,7 +28,6 @@ export type RatingTextProps = {
 export class RatingText extends React.Component<RatingTextProps, never> {
 
   private getRatingText(): string {
-    // TODO add localization for texts
     switch (this.props.rating) {
       case 1: return "I hated it"
       case 2: return "I didn't like it"
