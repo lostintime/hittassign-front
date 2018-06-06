@@ -44,8 +44,7 @@ moment.updateLocale("en", {
 ReactDOM.render((
   <BrowserRouter>
     <Switch>
-      <Route path="/:q" component={Reviews} />
-      <Route path="/" exact={true} render={() => (<Link to={"/Vd"}>Example 1</Link>)} />
+      <Route path="/" component={Reviews} />
     </Switch>
   </BrowserRouter>
 ), document.getElementById("root"))

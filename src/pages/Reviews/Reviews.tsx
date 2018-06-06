@@ -23,9 +23,8 @@ import { ReviewHeader } from "../../components/review/ReviewHeader"
 import { MyReviewItem } from "../../components/review/MyReviewItem"
 import { AddReviewItem } from "../../components/review/AddReviewItem"
 import { ReviewsState, ReviewsAction, reduceReviewsState } from "./state"
-import { RouteComponentProps } from "react-router"
 
-export type ReviewsProps = RouteComponentProps<{ q: string }>
+export type ReviewsProps = {}
 
 export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
   state: ReviewsState = ReviewsState.New
@@ -35,7 +34,7 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
   }
 
   componentDidMount() {
-    ReviewsAction.Load(this.props.match.params.q, this.dispatch)
+    ReviewsAction.Load("Vd", this.dispatch)
   }
 
   render(): React.ReactNode {
