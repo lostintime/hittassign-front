@@ -35,7 +35,7 @@ export class AlertBox extends React.Component<ReviewAlertProps, never> {
     return (
       <div className="alert-box">
           <div className="modal-backdrop fade show" style={{ zIndex: 1050 }}></div>
-          <div className="modal fade show d-flex flex-column justify-content-center" style={{ display: "block", zIndex: 1050 }}>
+          <div className="modal fade show d-flex flex-column justify-content-center align-items-center" style={{ display: "block", zIndex: 1050 }}>
             <div className="modal-dialog p-2">
               <div className="modal-content">
                 <div className="modal-header">{this.props.title}</div>
