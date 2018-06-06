@@ -1,0 +1,48 @@
+.rating-slider {
+  display: inline-block;
+
+  .rating-star-left {
+    width: 48px;
+    height: 56px;
+    padding: 8px 8px 8px 0;
+  }
+
+  .rating-star {
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .rating-star-right {
+    width: 48px;
+    height: 56px;
+    padding: 8px 0 8px 8px;
+  }
+}
+
+.rating-view {
+  display: inline-block;
+
+  .rating-star {
+    width: 12px;
+    height: 12px;
+    padding: 0px;
+  }
+}
+
+.rating-text {
+  @extend %text-secondary;
+}
+
+// Average rating value box
+.rating-avg {
+  @extend %text-title;
+  background-color: #FECD01;
+  border-radius: 8px;
+  width: $icon-size;
+  height: $icon-size;
+  text-align: center;
+  padding-top: 4px;
+  color: #4A4A4A;
+}

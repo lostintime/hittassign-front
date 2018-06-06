@@ -1,0 +1,50 @@
+.review-item {
+  margin: 8px 0 8px 0;
+
+  .review-col1 {
+    float: left;
+    width: 50px;
+
+    img {
+      margin-top: 2px;
+      width: $icon-size;
+      height: $icon-size;
+    }
+  }
+
+  .review-col2 {
+    float: left;
+    width: 100%;
+    margin-left: -50px;
+    padding-left: 50px;
+  }
+
+  .review-title {
+    @extend %text-title;
+    font-weight: 500;
+    color: #000000;
+
+    .p-2 {
+      padding: 0 !important;
+    }
+  }
+
+  .review-rating {
+    @extend %text-secondary;
+    line-height: 1.1;
+
+    .rating-view {
+      margin-right: 10px;
+    }
+
+    span {
+      vertical-align: middle;
+    }
+  }
+
+  .review-text {
+    @extend %text-primary;
+    margin-top: 10px;
+  }
+}
+

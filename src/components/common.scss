@@ -1,0 +1,163 @@
+
+$icon-size: 35px;
+$text-primary-color: #282829;
+$text-secondary-color: #9B9B9B;
+$text-title-color: #333333;
+$input-text-color: #8C8C8C;
+
+
+// bootstrap resets font default to 16px
+%text {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+%text-primary {
+  @extend %text;
+  color: $text-primary-color;
+  font-size: 1rem;
+}
+
+%text-secondary {
+  @extend %text;
+  color: $text-secondary-color;
+  font-size: .8125rem;
+}
+
+%text-title {
+  @extend %text;
+  color: $text-title-color;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+h2 {
+  @extend %text-title;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  @extend %text-title;
+  margin-bottom: 0.8rem;
+}
+
+a {
+  color: #039BEF;
+}
+
+hr {
+  border-top: 1px solid #EFEFEF;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.text-primary {
+  @extend %text-primary;
+}
+
+.text-secondary {
+  @extend %text-secondary;
+}
+
+.text-title {
+  @extend %text-title;
+}
+
+ul.review-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.actionbar {
+  background: #34AFF4;
+  font-weight: 100;
+
+  .actionbar-button {
+    margin: 0;
+    padding: 0;
+    .p-2 {
+      padding: 0.5rem
+    }
+
+    button {
+      color: white;
+      background: none;
+      border: 0;
+      font-weight: 100;
+      padding: 0 0.5rem;
+      cursor: pointer;
+    }      
+  }
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .0rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $input-text-color;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: solid 0;
+  font-weight: 100;
+}
+
+.form-control:focus {
+  outline: none;
+  outline-width: 0;
+  box-shadow: 0 0 0 0 #fff
+}
+
+.alert-box {
+  .modal-dialog {
+    max-width: 400px;
+    margin: 2rem;
+
+    .modal-content {
+      background: #F8F8F8;
+      border-width: 0;
+      border-radius: .875rem;
+    }
+
+    .modal-header {
+      @extend %text-primary;
+      display: block;
+      border: 0;
+      padding: 1.25rem 1.25rem .25rem 1.25rem;
+      font-size: 1.0625rem;
+      text-align: center;
+    }
+    
+    .modal-body {
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      display: block;
+      color: #000000;
+      font-size: .9375rem;
+      font-weight: 100;
+      text-align: center;
+
+      .p-2 {
+        padding: 0 !important;
+      }
+    }
+
+    .modal-footer {
+      padding: 0;
+      border-top: 1px solid #CBCBDB;
+      height: 44px;
+
+      button {
+        color: #007AFF;
+        border: 0;
+        background: none;
+        width: 100%;
+        height: 44px;
+        padding: 0 0.5rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
