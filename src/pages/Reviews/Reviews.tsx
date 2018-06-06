@@ -76,7 +76,7 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
 
         return (
           <div className="container" style={{ paddingTop: "26px", paddingBottom: "15px" }}>
-            <h2>{state.companyName} Reviews</h2>
+            <h2>{state.company.displayName} Reviews</h2>
             <ReviewHeader />
             <hr />
             {myReview ? (
@@ -98,13 +98,13 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
       }
       case "EditReview": return (
         <WriteReview review={state.myReview}
-                     title={`Review ${state.companyName}`}
+                     title={`Review ${state.company.displayName}`}
                      onClose={r => this.cancelReview(r)}
                      onSave={r => this.saveReview(r)} />
       )
       case "Error": return (
         <div className="modal d-flex flex-column justify-content-center">
-          <div className="p-2 align-self-center">
+          <div className="p-2 align-self-center" style={{ color: "red" }}>
             ERROR: {state.message}
           </div>
         </div>

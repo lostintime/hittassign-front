@@ -16,6 +16,7 @@
  */
 
 import { Rating } from "../rating"
+import { isString, hasFields } from "typematcher"
 
 /**
  * Review info
@@ -28,3 +29,14 @@ export type Review = {
   readonly userPic?: string
   readonly source?: string
 }
+
+export type CompanyInfo = {
+  id: string
+  displayName: string
+}
+
+export const isCompanyInfo = hasFields<CompanyInfo>({
+  id: isString,
+  displayName: isString
+})
+

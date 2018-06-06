@@ -16,12 +16,12 @@
  */
 
 import { Rating } from "../../components/rating"
-import { Review } from "../../components/review/dsl"
+import { Review, isCompanyInfo, CompanyInfo } from "../../components/review/dsl"
 import moment from "moment"
 import { ReviewInput } from "../../components/review/WriteReview"
 import { Future, Cancelable, IO } from "funfix"
 import axios from "axios"
-import { match, caseWhen, hasFields, isArrayOf, isString } from "typematcher"
+import { match, caseWhen, hasFields, isArrayOf } from "typematcher"
 
 export namespace ReviewsState {
   export type New = {
@@ -46,37 +46,44 @@ export namespace ReviewsState {
 
   export type Loaded = {
     readonly _tag: "Loaded"
-    readonly companyName: string
+    readonly company: CompanyInfo
     readonly reviews: Array<Review>
     readonly myRating?: Rating // this is used to store user rating if review write canceled
     readonly myReview?: Review
-    readonly ratingAvg?: number
-    readonly totalReviews?: number
   }
 
-  export function Loaded(companyName: string,
+  export function Loaded(company: CompanyInfo,
                          reviews: Array<Review>,
                          myReview?: Review,
-                         ratingAvg?: number,
-                         totalReviews?: number): Loaded {
+                         myRating?: Rating): Loaded {
     return {
       _tag: "Loaded",
-      companyName: companyName,
+      company: company,
       reviews: reviews,
       myReview: myReview,
-      ratingAvg: ratingAvg,
-      totalReviews: totalReviews
+      myRating: myRating
     }
   }
 
   export type EditReview = {
     readonly _tag: "EditReview"
-    readonly companyName: string
+    readonly company: CompanyInfo
     readonly reviews: Array<Review>
-    readonly prevReview?: Review // for canceling
     readonly myReview: Review
-    readonly ratingAvg?: number
-    readonly totalReviews?: number
+    readonly prevReview?: Review // for canceling
+  }
+
+  export function EditReview(company: CompanyInfo,
+                             reviews: Array<Review>,
+                             myReview: Review,
+                             prevReview?: Review): EditReview {
+    return {
+      _tag: "EditReview",
+      company: company,
+      reviews: reviews,
+      myReview: myReview,
+      prevReview: prevReview
+    }
   }
 
   export type Error = {
@@ -128,10 +135,7 @@ export namespace ReviewsAction {
                   hasFields({
                     result: hasFields({
                       companies: hasFields({
-                        company: isArrayOf(hasFields({
-                          id: isString,
-                          displayName: isString
-                        }))
+                        company: isArrayOf(isCompanyInfo)
                       })
                     })
                   }),
@@ -145,18 +149,18 @@ export namespace ReviewsAction {
                   }
                 ).
                 caseDefault(() => {
-                  throw new Error("Failed to load company info")
+                  throw new Error("Loaded invalid company info")
                 })
               ))
           )
         )
         .runOnComplete(_ => _.fold(
           e => {
-            dispatch(Failed("Failed to load company reviews"))
+            dispatch(Failed("Failed to load company info"))
           },
-          r => {
+          companyInfo => {
             dispatch(Loaded(
-              r.displayName,
+              companyInfo,
               [
                 {
                   rating: 4,
@@ -189,15 +193,15 @@ export namespace ReviewsAction {
 
   export type Loaded = {
     readonly type: "Loaded"
-    readonly companyName: string
+    readonly company: CompanyInfo
     readonly reviews: Array<Review>
     readonly myReview?: Review
   }
 
-  export function Loaded(companyName: string, reviews: Array<Review>, myReview?: Review): Loaded {
+  export function Loaded(company: CompanyInfo, reviews: Array<Review>, myReview?: Review): Loaded {
     return {
       type: "Loaded",
-      companyName: companyName,
+      company: company,
       reviews: reviews,
       myReview: myReview
     }
@@ -269,29 +273,27 @@ export function reduceReviewsState(state: ReviewsState = ReviewsState.New, actio
       return ReviewsState.Loading(action.task)
     }
     case "Loaded": {
-      return ReviewsState.Loaded(action.companyName, action.reviews, action.myReview)
+      return ReviewsState.Loaded(action.company, action.reviews, action.myReview)
     }
     case "EditReview": {
       switch (state._tag) {
-        case "Loaded": return ({
-          _tag: "EditReview",
-          prevReview: state.myReview,
-          myReview: action.review,
-          reviews: state.reviews,
-          companyName: state.companyName
-        })
+        case "Loaded": return ReviewsState.EditReview(
+          state.company,
+          state.reviews,
+          action.review,
+          state.myReview
+        )
         default: return state // invalid state, ignore
       }
     }
     case "CancelEditReview": {
       switch (state._tag) {
-        case "EditReview": return ({
-          _tag: "Loaded",
-          myRating: action.input.rating,
-          myReview: state.prevReview,
-          reviews: state.reviews,
-          companyName: state.companyName
-        })
+        case "EditReview": return ReviewsState.Loaded(
+          state.company,
+          state.reviews,
+          state.prevReview,
+          action.input.rating
+        )
         default: return state // invalid state, ignore
       }
     }
@@ -307,14 +309,14 @@ export function reduceReviewsState(state: ReviewsState = ReviewsState.New, actio
             source: "hitta.se"
           },
           reviews: state.reviews,
-          companyName: state.companyName
+          company: state.company
         })
         default: return state // invalid state, ignore
       }
 
     }
     case "Failed": {
-      return ReviewsState.Error("something went wrong")
+      return ReviewsState.Error(action.message)
     }
     default: {
       // this is required in order to ignore unknown actions
