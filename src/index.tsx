@@ -21,7 +21,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { Reviews } from "./pages/Reviews"
 import moment from "moment"
 
-// Init moment
+// Init moment's relative time formatting
 moment.updateLocale("en", {
   relativeTime : {
       future: "in %s",
@@ -44,7 +44,7 @@ moment.updateLocale("en", {
 ReactDOM.render((
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={Reviews} />
+      <Route path="/:q" component={Reviews} />
     </Switch>
   </BrowserRouter>
 ), document.getElementById("root"))

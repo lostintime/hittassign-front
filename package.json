@@ -21,6 +21,7 @@
     "commitmsg": "validate-commit-msg"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "funfix": "^7.0.1",
     "moment": "^2.22.2",
     "react": "^16.4.0",
@@ -29,8 +30,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.3.1",
-    "redux": "^4.0.0",
-    "redux-thunk": "^2.3.0"
+    "typematcher": "^0.8.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.3",

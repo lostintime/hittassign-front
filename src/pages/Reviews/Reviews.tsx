@@ -25,21 +25,19 @@ import { ReviewHeader } from "../../components/review/ReviewHeader"
 import { MyReviewItem } from "../../components/review/MyReviewItem"
 import { AddReviewItem } from "../../components/review/AddReviewItem"
 import { ReviewsState, ReviewsAction, reduceReviewsState } from "./state"
-import * as Redux from "redux"
+import { RouteComponentProps } from "react-router"
 
-export type ReviewsProps = {}
+export type ReviewsProps = RouteComponentProps<{ q: string }>
 
 export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
   state: ReviewsState = ReviewsState.New
 
-  private dispatch: Redux.Dispatch = <T extends Redux.AnyAction>(action: T): T => {
+  private dispatch: (a: ReviewsAction) => void = (action) => {
     this.setState(reduceReviewsState(this.state, action))
-
-    return action
   }
 
   componentDidMount() {
-    ReviewsAction.Load("123", this.dispatch)
+    ReviewsAction.Load(this.props.match.params.q, this.dispatch)
   }
 
   private addReview(rating: Rating): void {
@@ -78,7 +76,7 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
 
         return (
           <div className="container" style={{ paddingTop: "26px", paddingBottom: "15px" }}>
-            <h2>Reviews</h2>
+            <h2>{state.companyName} Reviews</h2>
             <ReviewHeader />
             <hr />
             {myReview ? (
@@ -100,7 +98,7 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
       }
       case "EditReview": return (
         <WriteReview review={state.myReview}
-                     title="Review My Company"
+                     title={`Review ${state.companyName}`}
                      onClose={r => this.cancelReview(r)}
                      onSave={r => this.saveReview(r)} />
       )
