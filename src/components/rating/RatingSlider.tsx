@@ -20,8 +20,7 @@ import { Rating } from "./dsl"
 
 export type RatingSliderProps = {
   readonly rating?: Rating
-  readonly onRatingChanged: (rating: Rating) => void
-  readonly onRatingHovered?: (rating: Rating | 0) => void
+  readonly onRatingSelected: (rating: Rating) => void
 }
 
 export type RatingSliderState = {
@@ -46,22 +45,16 @@ export class RatingSlider extends React.Component<RatingSliderProps, RatingSlide
       ...prev,
       displayRating: rating
     }))
-
-    if (this.props.onRatingHovered) {
-      this.props.onRatingHovered(rating)
-    }
   }
 
   private setRating(rating: Rating): void {
-    const prevRating = this.state.rating
-
     this.setState({
       rating: rating,
       displayRating: rating
     })
 
-    if (this.props.onRatingChanged && rating !== prevRating) {
-      this.props.onRatingChanged(rating)
+    if (this.props.onRatingSelected) {
+      this.props.onRatingSelected(rating)
     }
   }
 

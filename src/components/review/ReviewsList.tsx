@@ -16,25 +16,27 @@
  */
 
 import * as React from "react"
-import { RatingSlider } from "../rating"
+import { ReviewItem } from "./ReviewItem"
+import { Review } from "./dsl"
 
-export class ReviewAddItem extends React.Component<{}, never> {
+export type ReviewsListProps = {
+  readonly reviews: Array<Review>
+}
+
+/**
+ * Review list block
+ */
+export class ReviewsList extends React.Component<ReviewsListProps, never> {
   render(): React.ReactNode {
     return (
-      <div className="review-item clearfix">
-        <div className="review-col1">
-          <img src={require("./assets/avatar.png")}/>
-        </div>
-        <div className="review-col2">
-          <div className="review-title">Rate and review</div>
-          <div className="review-rating">
-            <span>Share your experience to help others</span>
-          </div>
-          <div className="review-text">
-            <RatingSlider onRatingChanged={r => console.log("rating", r)}/>
-          </div>
-        </div>
-      </div>
+      <ul className="review-list">
+        {this.props.reviews.map((review, key) => (
+          <li key={key}>
+            <ReviewItem review={review} />
+            {(key < (this.props.reviews.length - 1)) ? (<hr />) : null}
+          </li>
+        ))}
+      </ul>
     )
   }
 }

@@ -16,8 +16,8 @@
  */
 
 import * as React from "react"
-import { RatingSlider, RatingText, Rating } from "../components/rating"
-import { AlertBox } from "./AlertBox"
+import { RatingSlider, RatingText, Rating } from "../rating"
+import { AlertBox } from "../AlertBox"
 
 export type ReviewInput = {
   readonly rating: Rating
@@ -96,13 +96,13 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
 
   private close(): void {
     if (this.props.onClose) {
-      this.props.onClose(this.props.review)
+      this.props.onClose(this.state.review)
     }
   }
 
   private done(): void {
     if (this.props.onSave) {
-      this.props.onSave(this.props.review)
+      this.props.onSave(this.state.review)
     }
   }
 
@@ -120,7 +120,7 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
         </div>
         <div style={{ padding: "1rem 0.75rem" }}>
           <div style={{ textAlign: "center" }}>
-            <RatingSlider rating={this.state.review.rating} onRatingChanged={r => this.setRating(r)} />
+            <RatingSlider rating={this.state.review.rating} onRatingSelected={r => this.setRating(r)} />
           </div>
           <div style={{ textAlign: "center", marginTop: "12px" }}>
             <RatingText rating={this.state.review.rating} />
@@ -129,12 +129,14 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
           <input type="text"
             className="form-control"
             placeholder="Your name"
+            defaultValue={this.state.review.userName}
             onChange={e => this.setUserName(e.target.value)} />
           <hr style={{ margin: ".25rem 0 .25rem 0" }} />
           <textarea className="form-control"
             placeholder="Add more details on your experience"
             rows={3}
             style={{ resize: "none" }}
+            defaultValue={this.state.review.message}
             onChange={e => this.setMessage(e.target.value)}></textarea>
           <hr style={{ margin: 0 }} />
         </div>
