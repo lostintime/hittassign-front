@@ -17,7 +17,7 @@
 
 import * as ReactDOM from "react-dom"
 import * as React from "react"
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom"
 import { Reviews } from "./pages/Reviews"
 import moment from "moment"
 
@@ -45,6 +45,7 @@ ReactDOM.render((
   <BrowserRouter>
     <Switch>
       <Route path="/:q" component={Reviews} />
+      <Route path="/" exact={true} render={() => (<Link to={"/Vd"}>Example 1</Link>)} />
     </Switch>
   </BrowserRouter>
 ), document.getElementById("root"))
