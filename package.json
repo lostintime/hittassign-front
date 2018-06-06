@@ -21,6 +21,7 @@
     "commitmsg": "validate-commit-msg"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",

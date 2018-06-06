@@ -26,4 +26,5 @@ export type Review = {
   readonly message?: string
   readonly userName?: string
   readonly userPic?: string
+  readonly source?: string
 }
