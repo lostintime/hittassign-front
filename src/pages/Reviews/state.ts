@@ -236,11 +236,35 @@ export namespace ReviewsAction {
     readonly input: ReviewInput
   }
 
-  export function SaveReview(input: ReviewInput): SaveReview {
-    return {
+  export function SaveReview(company: CompanyInfo,
+                             input: ReviewInput,
+                             dispatch: (a: ReviewsAction) => void): void {
+    // TODO: move this to api client
+    const params = new URLSearchParams()
+    params.append("score", `${input.rating}`)
+    params.append("companyId", company.id)
+    if (input.message) {
+      params.append("comment", input.message)
+    }
+    if (input.userName) {
+      params.append("userName", input.userName)
+    }
+    axios
+      .post(
+        `https://cors-anywhere.herokuapp.com/https://test.hitta.se/reviews/v1/company`,
+        params,
+        {
+          headers: {
+            "X-HITTA-DEVICE-NAME": "MOBILE_WEB",
+            "X-HITTA-SHARED-IDENTIFIER": "15188693697264027"
+          }
+        }
+      )
+
+    dispatch({
       type: "SaveReview",
       input: input
-    }
+    })
   }
 
   export type Failed = {
@@ -299,18 +323,17 @@ export function reduceReviewsState(state: ReviewsState = ReviewsState.New, actio
     }
     case "SaveReview": {
       switch (state._tag) {
-        case "EditReview": return ({
-          _tag: "Loaded",
-          myReview: {
+        case "EditReview": return ReviewsState.Loaded(
+          state.company,
+          state.reviews,
+          {
             rating: action.input.rating,
             time: moment().toDate(),
             userName: action.input.userName,
             message: action.input.message,
             source: "hitta.se"
-          },
-          reviews: state.reviews,
-          company: state.company
-        })
+          }
+        )
         default: return state // invalid state, ignore
       }
 
