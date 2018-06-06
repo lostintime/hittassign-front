@@ -13,7 +13,7 @@
     "test:watch": "mocha --opts mocha.opts --watch",
     "test:prod": "yarn run lint && nyc mocha --opts mocha.opts --reporter dot",
     "prebuild": "yarn run clean",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url /hittassign-front/",
     "build:dev": "parcel src/index.html",
     "build:watch": "parcel watch src/index.html",
     "-precommit": "yarn test:prod",
