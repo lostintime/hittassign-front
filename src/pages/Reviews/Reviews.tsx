@@ -16,12 +16,8 @@
  */
 
 import * as React from "react"
-import moment from "moment"
-import { ReviewsList } from "../../components/review/ReviewsList"
-import { WriteReview } from "../../components/review/WriteReview"
-import { ReviewHeader } from "../../components/review/ReviewHeader"
-import { MyReviewItem } from "../../components/review/MyReviewItem"
-import { AddReviewItem } from "../../components/review/AddReviewItem"
+import moment = require("moment")
+import { ReviewsList, WriteReview, ReviewHeader, MyReviewItem, AddReviewItem } from "../../components/review"
 import { ReviewsState, ReviewsAction, reduceReviewsState } from "./state"
 
 export type ReviewsProps = {}
@@ -34,7 +30,12 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
   }
 
   componentDidMount() {
+    // The query is hardcoded here as github pages doesn't support urls rewrite
     ReviewsAction.Load("Vd", this.dispatch)
+  }
+
+  componentWillUnmount() {
+    this.dispatch(ReviewsAction.Unmount)
   }
 
   render(): React.ReactNode {
@@ -55,22 +56,27 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
         return (
           <div className="container" style={{ paddingTop: "26px", paddingBottom: "15px" }}>
             <h2>{state.company.displayName} Reviews</h2>
+
             <ReviewHeader />
             <hr />
             {myReview ? (
               <div>
                 <h3>Your review</h3>
-                <MyReviewItem review={myReview} onEdit={() => this.dispatch(ReviewsAction.EditReview(myReview))} />
+                <MyReviewItem review={myReview}
+                  onEdit={() => this.dispatch(ReviewsAction.EditReview(myReview))} />
               </div>
             ) : (
-              <AddReviewItem rating={myRating}
-                             onRatingChanged={r =>
-                               this.dispatch(ReviewsAction.EditReview({ rating: r, time: moment().toDate()
-                             }))} />
-            )}
+                <AddReviewItem rating={myRating}
+                  onRatingChanged={r =>
+                    this.dispatch(ReviewsAction.EditReview({
+                      rating: r, time: moment().toDate()
+                    }))} />
+              )}
             <hr />
+
             <h3>Latest reviews</h3>
             <ReviewsList reviews={state.reviews} />
+
             <div style={{ textAlign: "center", marginTop: "20px" }}>
               <b><a href="javascript:">View all reviews</a></b>
             </div>
@@ -79,9 +85,9 @@ export class Reviews extends React.Component<ReviewsProps, ReviewsState> {
       }
       case "EditReview": return (
         <WriteReview review={state.myReview}
-                     title={`Review ${state.company.displayName}`}
-                     onClose={r => this.dispatch(ReviewsAction.CancelEditReview(r))}
-                     onSave={r => ReviewsAction.SaveReview(state.company, r, this.dispatch) } />
+          title={`Review ${state.company.displayName}`}
+          onClose={r => this.dispatch(ReviewsAction.CancelEditReview(r))}
+          onSave={r => ReviewsAction.SaveReview(state.company, r, this.dispatch)} />
       )
       case "Error": return (
         <div className="modal d-flex flex-column justify-content-center">

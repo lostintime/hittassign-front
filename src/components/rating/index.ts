@@ -18,4 +18,3 @@
 export { RatingSlider } from "./RatingSlider"
 export { RatingText } from "./RatingText"
 export { RatingView } from "./RatingView"
-export * from "./dsl"

@@ -15,28 +15,10 @@
  * limitations under the License.
  */
 
-import { Rating } from "../rating"
-import { isString, hasFields } from "typematcher"
-
-/**
- * Review info
- */
-export type Review = {
-  readonly rating: Rating
-  readonly time: Date
-  readonly message?: string
-  readonly userName?: string
-  readonly userPic?: string
-  readonly source?: string
-}
-
-export type CompanyInfo = {
-  id: string
-  displayName: string
-}
-
-export const isCompanyInfo = hasFields<CompanyInfo>({
-  id: isString,
-  displayName: isString
-})
-
+export * from "./utils"
+export { AddReviewItem } from "./AddReviewItem"
+export { MyReviewItem } from "./MyReviewItem"
+export { ReviewHeader } from "./ReviewHeader"
+export { ReviewItem } from "./ReviewItem"
+export { ReviewsList } from "./ReviewsList"
+export { WriteReview } from "./WriteReview"

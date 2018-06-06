@@ -17,8 +17,8 @@
 
 import * as React from "react"
 import { RatingView } from "../rating"
-import { Review } from "./dsl"
 import { reviewSubtitle } from "./utils"
+import { Review } from "../../api"
 
 export type ReviewItemProps = {
   readonly review: Review

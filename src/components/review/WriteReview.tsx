@@ -16,14 +16,9 @@
  */
 
 import * as React from "react"
-import { RatingSlider, RatingText, Rating } from "../rating"
+import { RatingSlider, RatingText } from "../rating"
 import { AlertBox } from "../AlertBox"
-
-export type ReviewInput = {
-  readonly rating: Rating
-  readonly userName?: string
-  readonly message?: string
-}
+import { ReviewInput, Rating } from "../../api"
 
 export type WriteReviewProps = {
   readonly title: string
@@ -109,6 +104,7 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
   render(): React.ReactNode {
     return (
       <div>
+        {/* Actionbar */}
         <div className="d-flex justify-content-between actionbar">
           <div className="p-2 actionbar-button">
             <button onClick={_ => this.close()}>Close</button>
@@ -118,26 +114,26 @@ export class WriteReview extends React.Component<WriteReviewProps, WriteReviewSt
             <button onClick={_ => this.save()}>Save</button>
           </div>
         </div>
+        {/* Write review form */}
         <div style={{ padding: "1rem 0.75rem" }}>
+
           <div style={{ textAlign: "center" }}>
             <RatingSlider rating={this.state.review.rating} onRatingSelected={r => this.setRating(r)} />
           </div>
+
           <div style={{ textAlign: "center", marginTop: "12px" }}>
             <RatingText rating={this.state.review.rating} />
           </div>
+
           <hr style={{ margin: "1.125rem 0 .125rem 0" }} />
-          <input type="text"
-            className="form-control"
-            placeholder="Your name"
-            defaultValue={this.state.review.userName}
-            onChange={e => this.setUserName(e.target.value)} />
+          <input type="text" className="form-control" placeholder="Your name"
+            defaultValue={this.state.review.userName} onChange={e => this.setUserName(e.target.value)} />
+
           <hr style={{ margin: ".25rem 0 .25rem 0" }} />
-          <textarea className="form-control"
-            placeholder="Add more details on your experience"
-            rows={3}
-            style={{ resize: "none" }}
-            defaultValue={this.state.review.message}
+          <textarea className="form-control" placeholder="Add more details on your experience"
+            rows={3} style={{ resize: "none" }} defaultValue={this.state.review.message}
             onChange={e => this.setMessage(e.target.value)}></textarea>
+
           <hr style={{ margin: 0 }} />
         </div>
         {this.state._tag === "ThankYou" ? (

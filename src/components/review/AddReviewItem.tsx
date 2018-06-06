@@ -16,7 +16,8 @@
  */
 
 import * as React from "react"
-import { RatingSlider, Rating } from "../rating"
+import { RatingSlider } from "../rating"
+import { Rating } from "../../api"
 
 export type AddReviewItemProps = {
   readonly rating?: Rating

@@ -16,15 +16,18 @@
  */
 
 import * as React from "react"
-import { Review } from "./dsl"
 import { RatingView } from "../rating"
 import { reviewSubtitle } from "./utils"
+import { Review } from "../../api"
 
 export type MyReviewItemProps = {
   readonly review: Review
   readonly onEdit: (review: Review) => void
 }
 
+/**
+ * Review by current user, with edit button
+ */
 export class MyReviewItem extends React.Component<MyReviewItemProps, never> {
 
   private edit(): void {

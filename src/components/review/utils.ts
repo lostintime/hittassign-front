@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import moment from "moment"
-import { Review } from "./dsl"
+import moment = require("moment")
+import { Review } from "../../api"
 
 /**
  * Build review sutbitle utility

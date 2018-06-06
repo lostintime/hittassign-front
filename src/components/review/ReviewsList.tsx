@@ -17,7 +17,7 @@
 
 import * as React from "react"
 import { ReviewItem } from "./ReviewItem"
-import { Review } from "./dsl"
+import { Review } from "../../api"
 
 export type ReviewsListProps = {
   readonly reviews: Array<Review>

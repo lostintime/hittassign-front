@@ -15,13 +15,9 @@
  * limitations under the License.
  */
 
-import { Rating } from "../../components/rating"
-import { Review, isCompanyInfo, CompanyInfo } from "../../components/review/dsl"
-import moment from "moment"
-import { ReviewInput } from "../../components/review/WriteReview"
-import { Future, Cancelable, IO } from "funfix"
-import axios from "axios"
-import { match, caseWhen, hasFields, isArrayOf } from "typematcher"
+import moment = require("moment")
+import { CompanyInfo, Api, Review, Rating, ReviewInput } from "../../api"
+import { Cancelable } from "funfix"
 
 export namespace ReviewsState {
   export type New = {
@@ -124,69 +120,23 @@ export namespace ReviewsAction {
 
   export function Load<S>(q: string, dispatch: (a: ReviewsAction) => void): void {
     dispatch(Loading(
-      // TODO: this request should live inside an API client, move it
-      IO
-        .deferFuture(() =>
-          Future
-          .fromPromise(
-            axios.get(`https://cors-anywhere.herokuapp.com/https://api.hitta.se/search/v7/app/company/${encodeURIComponent(q)}`)
-              .then(r => match(r.data,
-                caseWhen(
-                  hasFields({
-                    result: hasFields({
-                      companies: hasFields({
-                        company: isArrayOf(isCompanyInfo)
-                      })
-                    })
-                  }),
-                  response => {
-                    const firstCo = response.result.companies.company[0]
-                    if (firstCo) {
-                      return firstCo
-                    } else {
-                      throw new Error("Company not found")
-                    }
-                  }
-                ).
-                caseDefault(() => {
-                  throw new Error("Loaded invalid company info")
-                })
-              ))
-          )
+      Api.findCompanies(q)
+        .map(companies => {
+          const firstCo = companies[0]
+          if (firstCo) {
+            return firstCo
+          } else {
+            throw new Error("Company not found")
+          }
+        })
+        .flatMap(companyInfo =>
+          Api.getReviews(companyInfo.id).map(reviews => ({ companyInfo, reviews }))
         )
         .runOnComplete(_ => _.fold(
           e => {
             dispatch(Failed("Failed to load company info"))
           },
-          companyInfo => {
-            dispatch(Loaded(
-              companyInfo,
-              [
-                {
-                  rating: 4,
-                  userName: "Anonym",
-                  time: moment().subtract(12, "hours").toDate(),
-                  source: "hitta.se",
-                  message: "Liked it very much - probably on of the best thai restaurands in the city - recommend!"
-                },
-                {
-                  rating: 3,
-                  userName: "Jenny Svensson",
-                  time: moment().subtract(1, "days").toDate(),
-                  source: "hitta.se",
-                  message: "Maybe a bit too fast food. I personally dislike that. Good otherwise."
-                },
-                {
-                  rating: 5,
-                  userName: "happy56",
-                  time: moment().subtract(2, "days").toDate(),
-                  source: "yelp.com",
-                  message: "Super good! Love the food!",
-                  userPic: require("../../components/review/assets/avatar-sample1.png")
-                }
-              ]
-            ))
-          }
+          ({ companyInfo, reviews }) => dispatch(Loaded(companyInfo, reviews))
         ))
     ))
   }
@@ -239,27 +189,7 @@ export namespace ReviewsAction {
   export function SaveReview(company: CompanyInfo,
                              input: ReviewInput,
                              dispatch: (a: ReviewsAction) => void): void {
-    // TODO: move this to api client
-    const params = new URLSearchParams()
-    params.append("score", `${input.rating}`)
-    params.append("companyId", company.id)
-    if (input.message) {
-      params.append("comment", input.message)
-    }
-    if (input.userName) {
-      params.append("userName", input.userName)
-    }
-    axios
-      .post(
-        `https://cors-anywhere.herokuapp.com/https://test.hitta.se/reviews/v1/company`,
-        params,
-        {
-          headers: {
-            "X-HITTA-DEVICE-NAME": "MOBILE_WEB",
-            "X-HITTA-SHARED-IDENTIFIER": "15188693697264027"
-          }
-        }
-      )
+    Api.saveReview(company, input).run()
 
     dispatch({
       type: "SaveReview",
@@ -278,6 +208,14 @@ export namespace ReviewsAction {
       message: message
     }
   }
+
+  export type Unmount = {
+    readonly type: "Unmount"
+  }
+
+  export const Unmount: Unmount = {
+    type: "Unmount"
+  }
 }
 
 export type ReviewsAction =
@@ -287,6 +225,7 @@ export type ReviewsAction =
   | ReviewsAction.CancelEditReview
   | ReviewsAction.SaveReview
   | ReviewsAction.Failed
+  | ReviewsAction.Unmount
 
 /**
  * Reduce new state from old state and given action
@@ -340,6 +279,15 @@ export function reduceReviewsState(state: ReviewsState = ReviewsState.New, actio
     }
     case "Failed": {
       return ReviewsState.Error(action.message)
+    }
+    case "Unmount": {
+      switch (state._tag) {
+        case "Loading": {
+          state.task.cancel()
+          return state
+        }
+        default: return state
+      }
     }
     default: {
       // this is required in order to ignore unknown actions

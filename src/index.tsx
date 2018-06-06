@@ -17,9 +17,9 @@
 
 import * as ReactDOM from "react-dom"
 import * as React from "react"
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 import { Reviews } from "./pages/Reviews"
-import moment from "moment"
+import moment = require("moment")
 
 // Init moment's relative time formatting
 moment.updateLocale("en", {
